@@ -15,12 +15,14 @@ export const createGQLClient = () => {
         resultCaching: false,
     });
 
-     const client = new ApolloClient({
+    const client = new ApolloClient({
         cache: cache,
         link: createUploadLink({
             uri: import.meta.env.VITE_URL,
             includeUnusedVariables: false,
-            credentials: 'include',
+            headers: {
+                authorization: import.meta.env.VITE_TOKEN ? `Bearer ${import.meta.env.VITE_TOKEN}` : "",
+            }
         }),
         defaultOptions: {
             watchQuery: {
@@ -32,5 +34,30 @@ export const createGQLClient = () => {
         },
     });
 
-    return client;
+    const query: Query = (name, query, variables) => {
+        return client
+            .query({
+                query,
+                variables,
+                fetchPolicy: 'no-cache',
+            })
+            .then(({ data, error }) => {
+                return error ? {
+                    data: data[name],
+                    error
+                } : data[name]
+            })
+    };
+
+    const mutate: Mutate = (name, mutation, variables) => {
+        return client
+            .mutate({
+                mutation,
+                variables,
+            })
+            .then(({ data }) => data[name]);
+    };
+
+    return { query, mutate };
+
 };
