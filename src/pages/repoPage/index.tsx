@@ -24,10 +24,6 @@ const RepoPage = () => {
         }
     }, []);
 
-
-    console.log(selectedRepository)
-
-
     return (<div className="page">
         {
             isLoading && (

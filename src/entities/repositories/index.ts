@@ -73,8 +73,6 @@ export const findViewerRepositories = createAsyncThunk<unknown, void, {
             "first": 100,
         });
 
-        console.log(response);
-
         if (response.error) {
             console.error("FIND_VIEWER_REPOSITORY ERROR RESPONSE!!1")
 
@@ -99,7 +97,7 @@ export const findRepositoryById = createAsyncThunk<unknown, string, {
     ACTIONS.FIND_REPOSITORIES_BY_ID,
     async (repositoryId, ThunkAPI) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const response:any = await ThunkAPI.extra.client.query("node", FIND_REPOSITORY_BY_ID, {
+        const response: any = await ThunkAPI.extra.client.query("node", FIND_REPOSITORY_BY_ID, {
             "id": repositoryId,
         });
 
