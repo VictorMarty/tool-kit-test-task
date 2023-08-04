@@ -9,7 +9,9 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-
+    env:
+      VITE_TOKEN: ${{ secrets.VITE_TOKEN }}
+      VITE_URL: https://api.github.com/graphql
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -22,9 +24,6 @@ jobs:
 
       - name: Build project
         run: npm run build
-        env:
-          VITE_TOKEN: ${{ secrets.VITE_TOKEN }}
-          VITE_URL: https://api.github.com/graphql
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v3
@@ -37,7 +36,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-
+    url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3

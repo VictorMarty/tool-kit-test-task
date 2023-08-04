@@ -8,7 +8,7 @@ export default defineConfig(({ command }) => {
     base: '/',
   }
 
-  if (command !== 'serve') {
+  if (command === 'build') {
     config.base = '/tool-kit-test-task/'
   }
 
