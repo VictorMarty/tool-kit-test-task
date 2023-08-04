@@ -26,6 +26,8 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+      VITE_TOKEN: ${{secrets.VITE_TOKEN}}
+      VITE_URL: https://api.github.com/graphql
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
