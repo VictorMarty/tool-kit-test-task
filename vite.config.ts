@@ -8,9 +8,9 @@ export default defineConfig(({ command }) => {
     base: '/',
   }
 
-  // if (command === 'build') {
-  //   config.base = '/tool-kit-test-task/'
-  // }
+  if (command === 'build') {
+    config.base = '/tool-kit-test-task/'
+  }
 
   return config
 })
