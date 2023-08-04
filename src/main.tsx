@@ -9,11 +9,11 @@ import RepoPage from './pages/repoPage/index.tsx'
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/tool-kit-test-task/",
     element: <Main />,
   },
   {
-    path: "/:id",
+    path: "/tool-kit-test-task/:id",
     element: <RepoPage />,
   },
 ]);
