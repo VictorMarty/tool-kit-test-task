@@ -1,12 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch } from "../../store";
+import type { AppDispatch } from "../../app/store";
 import { checkIsLoadingData, findRepositoriesBySearchString, findViewerRepositories, getSearchedRepositories, getViewerRepositories } from "../../entities/repositories";
 import { useEffect, useState } from "react";
 import Card from "../../entities/repositories/ui/Card";
 import { useSearchParams } from "react-router-dom";
 import reactLogo from "../../assets/react.svg"
+import useScrollToTop from "../../shared/hooks/useScrollToTop";
 
 const Main = () => {
+    useScrollToTop();
     const [searchParams, setSearchParams] = useSearchParams()
     const [searchString, setSearchString] = useState(searchParams.get("s") || "");
 

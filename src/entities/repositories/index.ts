@@ -1,23 +1,24 @@
 import { createAsyncThunk, createReducer, createSelector } from "@reduxjs/toolkit";
-import { AppDispatch, RootState } from "../../store";
-import { gql, useQuery } from "@apollo/client";
-import { createGQLClient } from "../../gql-client";
-import { GET_REPOSITORIES_BY_SEARCH_STRING, GET_VIEWER_REPOSITORIES } from "./queries";
-import { Repository } from "./types";
+import { AppDispatch, RootState } from "../../app/store";
+import { createGQLClient } from "../../app/gql-client";
+import { FIND_REPOSITORY_BY_ID, GET_REPOSITORIES_BY_SEARCH_STRING, GET_VIEWER_REPOSITORIES } from "./queries";
+import { Repository, RepositoryFullInfo } from "./types";
 
 const repositoriesState = {
     searchString: "",
     repositories: [] as Array<Repository>,
     viewerRepositories: [] as Array<Repository>,
     isLoading: false,
+    selectedRepository: null as null | RepositoryFullInfo,
 };
 
 const ACTIONS = {
     FIND_REPOSITORIES_BY_SEARCH_STRING: "FIND_REPOSITORIES_BY_SEARCH_STRING",
     FIND_VIEWER_REPOSITORY: "FIND_VIEWER_REPOSITORY",
+    FIND_REPOSITORIES_BY_ID: "FIND_REPOSITORIES_BY_ID"
 } as const;
 
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mapResponseDataToStoreType = (data: Array<any>) => data.map(repositoryData => {
     const lastCommitDate = repositoryData.defaultBranchRef ? repositoryData.defaultBranchRef?.target.history.edges[0].node.committedDate : ""
     return {
@@ -56,8 +57,6 @@ export const findRepositoriesBySearchString = createAsyncThunk<unknown, string, 
     },
 );
 
-
-
 export const findViewerRepositories = createAsyncThunk<unknown, void, {
     // Optional fields for defining thunkApi field types
     dispatch: AppDispatch,
@@ -89,31 +88,32 @@ export const findViewerRepositories = createAsyncThunk<unknown, void, {
     },
 );
 
-// export const findRepositoryById = createAsyncThunk<unknown, string, {
-//     // Optional fields for defining thunkApi field types
-//     dispatch: AppDispatch,
-//     state: RootState,
-//     extra: {
-//         client: ReturnType<typeof createGQLClient>
-//     }
-// }
-// >(
-//     ACTIONS.FIND_REPOSITORIES_BY_SEARCH_STRING,
-//     async (repositoryId, ThunkAPI) => {
-//         const state = ThunkAPI.getState()
-//         const response = await ThunkAPI.extra.client.query("node", FIND_REPOSITORY_BY_ID, {
-//             "id": repositoryId,
-//         });
+export const findRepositoryById = createAsyncThunk<unknown, string, {
+    dispatch: AppDispatch,
+    state: RootState,
+    extra: {
+        client: ReturnType<typeof createGQLClient>
+    }
+}
+>(
+    ACTIONS.FIND_REPOSITORIES_BY_ID,
+    async (repositoryId, ThunkAPI) => {
+        const response = await ThunkAPI.extra.client.query("node", FIND_REPOSITORY_BY_ID, {
+            "id": repositoryId,
+        });
 
-//         const pretify =
 
-//             console.log(c);
+        if (response.error) {
+            console.error(response.error);
 
-//         // ThunkAPI.extra.client.query(ACTIONS.FIND_REPOSITORIES_BY_SEARCH_STRING, GET_REPOSITORIES_BY_SEARCH_STRING)
+            return ThunkAPI.rejectWithValue(response.error);
+        }
 
-//         return true;
-//     },
-// );
+        const prettifyRepository = mapResponseDataToStoreType([response])[0]
+
+        return ThunkAPI.fulfillWithValue(prettifyRepository);
+    },
+);
 
 export const repositoriesReducer = createReducer(repositoriesState, builder => {
     builder
@@ -151,7 +151,27 @@ export const repositoriesReducer = createReducer(repositoriesState, builder => {
 
             return state
         })
+        .addCase(findRepositoryById.pending, (state) => {
+            state.isLoading = true;
+            state.selectedRepository = null;
 
+            return state
+
+        })
+        .addCase(findRepositoryById.fulfilled, (state, action) => {
+            state.isLoading = false;
+
+            state.selectedRepository = action.payload as RepositoryFullInfo;
+
+            return state
+
+        })
+        .addCase(findRepositoryById.rejected, (state) => {
+            state.isLoading = false;
+            state.selectedRepository = null;
+            return state
+
+        })
 });
 
 const getSearchedRepositoriesInStore = (state: RootState) => state.repositories;
@@ -169,4 +189,9 @@ export const getViewerRepositories = createSelector(
 export const checkIsLoadingData = createSelector(
     getSearchedRepositoriesInStore,
     repositories => repositories.isLoading,
+)
+
+export const getSelectedRepositoryData = createSelector(
+    getSearchedRepositoriesInStore,
+    repositories => repositories.selectedRepository,
 )

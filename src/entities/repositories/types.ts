@@ -6,3 +6,16 @@ export type Repository = {
     lastCommitDate: string,
 
 }
+
+export type RepositoryFullInfo = Repository & {
+    description: string,
+    languages: {
+        nodes: Array<{ name: string, color: string }>
+    },
+    owner: {
+        avatarUrl: string,
+        id: string,
+        login: string,
+        url: string,
+    }
+}

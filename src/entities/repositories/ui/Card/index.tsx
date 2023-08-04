@@ -2,7 +2,7 @@ import format from "date-fns/format";
 import { Repository } from "../../types";
 import { Link } from "react-router-dom"
 
-const Card = ({ id, lastCommitDate, name, stargazerCount, url }: Repository) => {
+const Card = ({ id, lastCommitDate, name, stargazerCount, url, withLink = true }: Repository & { withLink?: boolean }) => {
 
     return <div className="card">
         <div className="card-title">
@@ -18,11 +18,13 @@ const Card = ({ id, lastCommitDate, name, stargazerCount, url }: Repository) => 
             <span>
                 Коммит: {lastCommitDate ? format(new Date(lastCommitDate), "dd.MM.yyyy в HH:mm") : "-"}
             </span>
-            <Link
+            {withLink && <Link
                 to={url}
                 target="_blank"
                 className="card-link"
-            >Ссылка</Link>
+            >
+                Ссылка
+            </Link>}
         </div>
     </div>;
 }
