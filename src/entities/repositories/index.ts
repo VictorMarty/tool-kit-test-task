@@ -98,7 +98,8 @@ export const findRepositoryById = createAsyncThunk<unknown, string, {
 >(
     ACTIONS.FIND_REPOSITORIES_BY_ID,
     async (repositoryId, ThunkAPI) => {
-        const response = await ThunkAPI.extra.client.query("node", FIND_REPOSITORY_BY_ID, {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const response:any = await ThunkAPI.extra.client.query("node", FIND_REPOSITORY_BY_ID, {
             "id": repositoryId,
         });
 

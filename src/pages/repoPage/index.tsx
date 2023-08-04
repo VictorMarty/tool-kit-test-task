@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { checkIsLoadingData, findRepositoryById, getSelectedRepositoryData } from "../../entities/repositories";
 import { AppDispatch } from "../../app/store";
 import reactLogo from "../../assets/react.svg"
