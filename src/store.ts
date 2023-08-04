@@ -1,5 +1,4 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import thunk from 'redux-thunk';
 import { createGQLClient } from './gql-client';
 import { repositoriesReducer } from './entities/repositories';
 
@@ -20,4 +19,5 @@ export const store = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+
 export default store;

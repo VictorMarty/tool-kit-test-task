@@ -30,7 +30,7 @@ query findRepositoriesByString($query: String!, $type: SearchType!, $first: Int)
 }
 `
 
-export const GET_VIEWIER_REPOSITORIES = gql`
+export const GET_VIEWER_REPOSITORIES = gql`
 query getViewerRepositories($first: Int, $privacy: RepositoryPrivacy) {
   viewer {
     repositories(first: $first, privacy: $privacy) {

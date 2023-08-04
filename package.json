@@ -13,9 +13,11 @@
     "@apollo/client": "^3.7.17",
     "@reduxjs/toolkit": "^1.9.5",
     "apollo-upload-client": "^17.0.0",
+    "date-fns": "^2.30.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-redux": "^8.1.2"
+    "react-redux": "^8.1.2",
+    "react-router-dom": "^6.14.2"
   },
   "devDependencies": {
     "@types/apollo-upload-client": "^17.0.2",
