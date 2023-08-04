@@ -22,6 +22,9 @@ jobs:
 
       - name: Build project
         run: npm run build
+        env:
+          VITE_TOKEN: ${{ secrets.VITE_TOKEN }}
+          VITE_URL: https://api.github.com/graphql
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v3
@@ -46,5 +49,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          VITE_TOKEN: ${{ secrets.VITE_TOKEN }}
           publish_dir: ./dist
