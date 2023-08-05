@@ -22,6 +22,7 @@ const RepoPage = () => {
         if (params.id && selectedRepository?.id !== params.id) {
             dispatch(findRepositoryById(params.id))
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (<div className="page">
