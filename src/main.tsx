@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.css'
+import "./shared/styles/index.css"
 import { RouterProvider } from 'react-router-dom'
-import store from './app/store.ts'
+import store from './app/store/store.ts'
 import { Provider } from 'react-redux'
 import router from './app/router/index.tsx'
 

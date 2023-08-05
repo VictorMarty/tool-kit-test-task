@@ -1,6 +1,6 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import { createGQLClient } from './gql-client';
-import { repositoriesReducer } from '../entities/repositories';
+import { createGQLClient } from '../../shared/api/gql-client';
+import { repositoriesReducer } from '../../entities/repositories';
 
 const rootReducer = combineReducers({
     repositories: repositoriesReducer

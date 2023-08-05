@@ -208,6 +208,15 @@ margin-left: auto;
  text-align: left;
 }
 
+.empty {
+  padding: 48px;
+  font-size: large;
+  border: 2px solid #646cff;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 @keyframes logo-spin {
   from {

@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch } from "../../app/store";
+import type { AppDispatch } from "../../app/store/store";
 import { checkIsLoadingData, findRepositoriesBySearchString, findViewerRepositories, getSearchedRepositories, getViewerRepositories } from "../../entities/repositories";
 import { useEffect, useState } from "react";
 import Card from "../../entities/repositories/ui/Card";
 import { useSearchParams } from "react-router-dom";
 import reactLogo from "../../assets/react.svg"
 import useScrollToTop from "../../shared/hooks/useScrollToTop";
-import Paginator from "../../shared/Paginator";
+import Paginator from "../../shared/ui/Paginator";
 
 const Main = () => {
     useScrollToTop();
@@ -24,7 +24,7 @@ const Main = () => {
     const activePage = searchParams.get("p") && Number(searchParams.get("p")) ? Number(searchParams.get("p")) : 1
 
     const checkIsShowCurrentItem = (index: number) => index >= (activePage - 1) * 10 && index < (activePage) * 10
-    
+
     useEffect(() => {
         if (searchString) {
             dispatch(findRepositoriesBySearchString(searchString))
@@ -74,11 +74,15 @@ const Main = () => {
             {
                 !isLoading && (
                     <>
+
                         <div className="list">
                             {!!repositories && !!repositories.length && (
                                 repositories.map((repo, index) => (
                                     checkIsShowCurrentItem(index) ? <Card {...repo} /> : null
                                 ))
+                            )}
+                            {!!repositories && !repositories.length && (
+                                <div className="empty">Репозитории не найдены</div>
                             )}
                         </div>
                         <Paginator

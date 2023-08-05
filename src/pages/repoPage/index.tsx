@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom"
 import { checkIsLoadingData, findRepositoryById, getSelectedRepositoryData } from "../../entities/repositories";
-import { AppDispatch } from "../../app/store";
+import { AppDispatch } from "../../app/store/store";
 import reactLogo from "../../assets/react.svg"
 import Card from "../../entities/repositories/ui/Card";
 import useScrollToTop from "../../shared/hooks/useScrollToTop";
@@ -22,7 +22,7 @@ const RepoPage = () => {
         if (params.id && selectedRepository?.id !== params.id) {
             dispatch(findRepositoryById(params.id))
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (<div className="page">
