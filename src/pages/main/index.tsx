@@ -78,7 +78,7 @@ const Main = () => {
           value={searchString}
           onChange={(e) => setSearchString(e.target.value)}
         />
-        <button onClick={handleClick}>Поиск</button>
+        <button id="search-button" onClick={handleClick}>Поиск</button>
       </header>
       {!isLoading && (
         <>
@@ -86,7 +86,7 @@ const Main = () => {
             {!!repositories &&
               !!repositories.length &&
               repositories.map((repo, index) =>
-                checkIsShowCurrentItem(index) ? <Card {...repo} /> : null,
+                checkIsShowCurrentItem(index) ? <Card {...repo} testId={index} key={repo.id} /> : null,
               )}
             {!!repositories && !repositories.length && (
               <div className="empty">Репозитории не найдены</div>

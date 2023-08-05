@@ -9,15 +9,16 @@ const Card = ({
   stargazerCount,
   url,
   withLink = true,
-}: Repository & { withLink?: boolean }) => {
+  testId,
+}: Repository & { withLink?: boolean, testId?: string }) => {
   return (
-    <div className="card">
+    <div className="card" id={`card-${testId}`}>
       <div className="card-title">
         <Link to={`/${id}`}>{name}</Link>
       </div>
       <div className="card-info">
         <span className="card-stars">Stars: {stargazerCount}</span>
-        <span>
+        <span className="card-name">
           Коммит:{" "}
           {lastCommitDate
             ? format(new Date(lastCommitDate), "dd.MM.yyyy в HH:mm")
