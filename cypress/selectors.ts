@@ -1,23 +1,25 @@
 const selectors = {
-    main: {
-        input: ".search-input",
-        button: "#search-button",
-        list: {
-            overview: ".list",
-            getItemByPosition: (number) => `card-${number}`,
-        },
-        card: {
-            title: ".card-title",
-            link: ".card-link",
-            name: ".card-name",
-        },
-        pagination: {
-            getItemByNumber: (number) => `${number}`,
-        }
+  main: {
+    input: ".search-input",
+    button: "#search-button",
+    list: {
+      overview: ".list",
+      getItemByPosition: (number) => `#card-${number}`,
     },
-    repo: {
-        name: "",
-    }
-}
+    pagination: {
+      getItemByNumber: (number) => `#page-number-${number}`,
+      activePage: ".active-page",
+    },
+  },
+  repo: {
+    author: ".repository-owner a",
+    languagesList: ".repository-languages ul",
+  },
+  card: {
+    overview: ".card",
+    titleLink: ".card-title-link",
+    link: ".card-link",
+  },
+};
 
-export default selectors
+export default selectors;

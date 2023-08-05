@@ -17,9 +17,8 @@ const Paginator = React.memo(
               onClick={() => {
                 onClick(pageNumber);
               }}
-              className={
-                pageNumber + 1 === activePage ? "active-page-number" : ""
-              }
+              id={`page-number-${pageNumber + 1}`}
+              className={pageNumber + 1 === activePage ? "active-page" : ""}
             >
               {pageNumber + 1}
             </button>

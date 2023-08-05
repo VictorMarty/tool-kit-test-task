@@ -43,6 +43,7 @@ const Main = () => {
     } else if (!viewerRepositories.length) {
       dispatch(findViewerRepositories());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleClick = () => {
@@ -78,7 +79,9 @@ const Main = () => {
           value={searchString}
           onChange={(e) => setSearchString(e.target.value)}
         />
-        <button id="search-button" onClick={handleClick}>Поиск</button>
+        <button id="search-button" onClick={handleClick}>
+          Поиск
+        </button>
       </header>
       {!isLoading && (
         <>
@@ -86,7 +89,9 @@ const Main = () => {
             {!!repositories &&
               !!repositories.length &&
               repositories.map((repo, index) =>
-                checkIsShowCurrentItem(index) ? <Card {...repo} testId={index} key={repo.id} /> : null,
+                checkIsShowCurrentItem(index) ? (
+                  <Card {...repo} testId={String(index)} key={repo.id} />
+                ) : null,
               )}
             {!!repositories && !repositories.length && (
               <div className="empty">Репозитории не найдены</div>
