@@ -42,6 +42,8 @@ jobs:
         env:
           VITE_TOKEN: ${{ secrets.VITE_TOKEN }}
           VITE_URL: https://api.github.com/graphql
+          VITE_BASENAME: "/tool-kit-test-task/"
+          VITE_NODE_ENV: "production"
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact

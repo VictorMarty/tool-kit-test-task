@@ -6,6 +6,7 @@ import Card from "../../entities/repositories/ui/Card";
 import { useSearchParams } from "react-router-dom";
 import reactLogo from "../../assets/react.svg"
 import useScrollToTop from "../../shared/hooks/useScrollToTop";
+import Paginator from "../../shared/Paginator";
 
 const Main = () => {
     useScrollToTop();
@@ -22,6 +23,8 @@ const Main = () => {
     const totalPages = Math.ceil(repositories.length / 10);
     const activePage = searchParams.get("p") && Number(searchParams.get("p")) ? Number(searchParams.get("p")) : 1
 
+    const checkIsShowCurrentItem = (index: number) => index >= (activePage - 1) * 10 && index < (activePage) * 10
+    
     useEffect(() => {
         if (searchString) {
             dispatch(findRepositoriesBySearchString(searchString))
@@ -39,6 +42,19 @@ const Main = () => {
         } else if (!viewerRepositories.length) {
             dispatch(findViewerRepositories())
         }
+
+    }
+
+    const handleChangePage = (pageNumber: number) => {
+        const newSearchParams = new URLSearchParams({
+            p: String(pageNumber + 1)
+        })
+        const searchStringSearchParams = searchParams.get("s");
+
+        if (searchStringSearchParams) {
+            newSearchParams.append("s", searchStringSearchParams)
+        }
+        setSearchParams(newSearchParams)
 
     }
 
@@ -61,40 +77,15 @@ const Main = () => {
                         <div className="list">
                             {!!repositories && !!repositories.length && (
                                 repositories.map((repo, index) => (
-                                    index >= (activePage - 1) * 10 && index < (activePage) * 10 ? <Card {...repo} /> : null
+                                    checkIsShowCurrentItem(index) ? <Card {...repo} /> : null
                                 ))
                             )}
                         </div>
-                        <ul
-                            className="pagination"
-                        >
-                            {!!totalPages && totalPages > 1 && (
-                                [...Array(totalPages).keys()].map((pageNumber) => (
-                                    <li
-
-                                    >
-                                        <button
-                                            onClick={() => {
-                                                const newSearchParams = new URLSearchParams({
-                                                    p: String(pageNumber + 1)
-                                                })
-                                                const searchStringSearchParams = searchParams.get("s");
-
-                                                if (searchStringSearchParams) {
-                                                    newSearchParams.append("s", searchStringSearchParams)
-                                                }
-                                                setSearchParams(newSearchParams)
-
-                                            }}
-                                            className={pageNumber + 1 === activePage ? "active-page-number" : ""}
-                                        >
-                                            {pageNumber + 1}
-                                        </button>
-
-                                    </li>
-                                ))
-                            )}
-                        </ul>
+                        <Paginator
+                            activePage={activePage}
+                            onClick={handleChangePage}
+                            totalPages={totalPages}
+                        />
                     </>
 
                 )

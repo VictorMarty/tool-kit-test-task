@@ -6,17 +6,7 @@ import store from './app/store.ts'
 import { Provider } from 'react-redux'
 import Main from './pages/main/index.tsx'
 import RepoPage from './pages/repoPage/index.tsx'
-
-const router = createBrowserRouter([
-  {
-    path: "/tool-kit-test-task/",
-    element: <Main />,
-  },
-  {
-    path: "/tool-kit-test-task/:id",
-    element: <RepoPage />,
-  },
-]);
+import router from './app/router/index.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
